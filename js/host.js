@@ -19,6 +19,30 @@
 
   const qTime = (q) => q.time || CFG.QUESTION_TIME || 20;
 
+  // ---------- answer shuffling ----------
+  // Each new game gets a fresh order. The correct answer is spread evenly over
+  // red / blue / yellow / green, and True/False questions keep True first.
+  function randInt(n) { return crypto.getRandomValues(new Uint32Array(1))[0] % n; }
+  function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = randInt(i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+  function makeOrders() {
+    const multi = QS.map((q, i) => i).filter((i) => QS[i].options.length > 2);
+    const targets = shuffle(multi.map((_, k) => k % 4));
+    return QS.map((q, i) => {
+      const n = q.options.length;
+      const ids = [...Array(n).keys()];
+      if (n <= 2) return ids;
+      const target = Math.min(targets[multi.indexOf(i)], n - 1);
+      const others = shuffle(ids.filter((x) => x !== q.correct));
+      others.splice(target, 0, q.correct);
+      return others;
+    });
+  }
+  function getQ(i) {
+    const q = QS[i];
+    const order = (S && S.order && S.order[i]) || q.options.map((_, k) => k);
+    return Object.assign({}, q, { options: order.map((k) => q.options[k]), correct: order.indexOf(q.correct) });
+  }
+
   function show(name) {
     SCREENS.forEach((s) => { $('#' + s).hidden = s !== name; });
   }
@@ -58,7 +82,7 @@
   function snapshot() {
     const s = { phase: S.phase, ids: Object.keys(S.players), kicked: S.kicked, n: QS.length };
     if (S.phase === 'question') {
-      const q = QS[S.qi];
+      const q = getQ(S.qi);
       const left = Math.max(0, Math.ceil((S.qStart + qTime(q) * 1000 - Date.now()) / 1000));
       s.q = { i: S.qi, text: q.q, options: q.options, dbl: !!q.double, left };
     }
@@ -109,7 +133,7 @@
     if (S.phase !== 'question' || p.i !== S.qi) return;
     const pl = S.players[p.id];
     if (!pl || pl.key !== p.key || S.answers[p.id]) return;
-    const q = QS[S.qi];
+    const q = getQ(S.qi);
     const a = Number(p.a);
     if (!Number.isInteger(a) || a < 0 || a >= q.options.length) return;
     const ms = Date.now() - S.qStart;
@@ -123,7 +147,7 @@
   // ---------- game flow ----------
   function newGame() {
     const pin = String(100000 + (crypto.getRandomValues(new Uint32Array(1))[0] % 900000));
-    S = { pin, phase: 'lobby', qi: -1, players: {}, kicked: [], answers: {}, qStart: 0, res: null, created: Date.now() };
+    S = { pin, phase: 'lobby', qi: -1, players: {}, kicked: [], answers: {}, qStart: 0, res: null, created: Date.now(), order: makeOrders() };
     save();
     connect();
     renderLobby();
@@ -149,7 +173,7 @@
 
   function startTick() {
     clearInterval(tick);
-    const q = QS[S.qi];
+    const q = getQ(S.qi);
     const update = () => {
       const left = Math.max(0, Math.ceil((S.qStart + qTime(q) * 1000 - Date.now()) / 1000));
       const t = $('#qTimer');
@@ -164,7 +188,7 @@
   function endQuestion() {
     if (S.phase !== 'question') return;
     clearInterval(tick);
-    const q = QS[S.qi];
+    const q = getQ(S.qi);
     const limit = qTime(q) * 1000;
     const m = {};
     const dist = q.options.map(() => 0);
@@ -246,7 +270,7 @@
 
   function renderQuestion() {
     show('question');
-    const q = QS[S.qi];
+    const q = getQ(S.qi);
     $('#qNum').textContent = `Question ${S.qi + 1} of ${QS.length}`;
     $('#qDouble').hidden = !q.double;
     $('#qText').textContent = q.q;
@@ -262,7 +286,7 @@
 
   function renderReveal() {
     show('reveal');
-    const q = QS[S.qi];
+    const q = getQ(S.qi);
     $('#rNum').textContent = `Question ${S.qi + 1} of ${QS.length}`;
     $('#rText').textContent = q.q;
     const dist = S.res.dist;
