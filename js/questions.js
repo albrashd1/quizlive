@@ -2,7 +2,7 @@
 //  Your quiz. Edit freely.
 //  - options: 2 to 4 answers
 //  - correct: position of the right answer, starting at 0 (first option = 0)
-//  - time:    seconds (optional, default comes from config.js)
+//  - time:    seconds for this question (the question ends early once everyone has answered)
 //  - double:  true = double points
 //  - explain: shown on the big screen after the answer is revealed (optional)
 // ============================================================
@@ -14,12 +14,14 @@ window.QUIZ = {
       q: 'Which emotion is most commonly exploited in phishing campaigns?',
       options: ['Joy', 'Urgency/Fear', 'Sympathy', 'Nostalgia'],
       correct: 1,
+      time: 60,
       explain: 'Attackers often pressure users into acting before verifying details.',
     },
     {
       q: 'What is the primary goal of a credential harvesting phishing email?',
       options: ['Encrypt files', 'Steal login credentials', 'Slow down a network', 'Disable antivirus'],
       correct: 1,
+      time: 60,
       explain: 'Credential harvesting leads victims to a fake login page to capture usernames and passwords.',
     },
     {
@@ -31,13 +33,14 @@ window.QUIZ = {
         'A message sent during business hours',
       ],
       correct: 1,
-      time: 25,
+      time: 60,
       explain: 'Logos and formatting are easy to copy. A mismatched link destination is a real red flag.',
     },
     {
       q: 'True or False: Hovering over a link can help reveal whether the real destination matches the displayed text.',
       options: ['True', 'False'],
       correct: 0,
+      time: 60,
       explain: 'Hovering (or long-pressing on mobile) shows the real URL before you click.',
     },
     {
@@ -49,6 +52,7 @@ window.QUIZ = {
         'Phishing using smart devices only',
       ],
       correct: 1,
+      time: 60,
       explain: 'Smishing = SMS + phishing.',
     },
     {
@@ -60,6 +64,7 @@ window.QUIZ = {
         'USB malware drops',
       ],
       correct: 1,
+      time: 60,
       explain: 'Vishing = voice phishing: a caller pretends to be the bank, IT support, or a manager.',
     },
     {
@@ -71,20 +76,21 @@ window.QUIZ = {
         'A spam campaign sent from many fake domains',
       ],
       correct: 1,
-      time: 30,
+      time: 60,
       explain: 'BEC usually has no malware at all — just a convincing request from a “trusted” sender.',
     },
     {
       q: 'A URL reads https://microsoft-login-security.example.com — what is the actual domain?',
       options: ['microsoft.com', 'login-security.com', 'example.com', 'microsoft-login.com'],
       correct: 2,
-      time: 25,
+      time: 60,
       explain: 'Read the domain from the right: the part just before the ending (.com) is the real owner. Everything to the left is a subdomain the attacker chose.',
     },
     {
       q: 'Which technique abuses Unicode characters to create lookalike domains?',
       options: ['Token replay', 'Homoglyph attack', 'ARP spoofing', 'Session pinning'],
       correct: 1,
+      time: 60,
       explain: 'Homoglyphs are characters that look alike, e.g. a Cyrillic “а” instead of a Latin “a”.',
     },
     {
@@ -96,13 +102,14 @@ window.QUIZ = {
         'QR codes automatically install malware without interaction',
       ],
       correct: 2,
-      time: 25,
+      time: 60,
       explain: 'You can’t read a QR code with your eyes — and many people open the link without checking it. (Yes, including the one you scanned today!)',
     },
     {
       q: 'True or False: Phishing attacks only happen through email.',
       options: ['True', 'False'],
       correct: 1,
+      time: 60,
       explain: 'Phishing can happen through email, SMS, phone calls, social media, QR codes, and fake websites.',
     },
     {
@@ -114,7 +121,7 @@ window.QUIZ = {
         'Restart the computer and continue working',
       ],
       correct: 2,
-      time: 30,
+      time: 60,
       explain: 'Act fast: change the password, report it, and check for suspicious sessions and MFA prompts.',
     },
     {
@@ -126,7 +133,7 @@ window.QUIZ = {
         'A password spraying technique against MFA servers',
       ],
       correct: 1,
-      time: 25,
+      time: 60,
       explain: 'Never approve an MFA prompt you did not start — report it instead.',
     },
     {
@@ -138,13 +145,14 @@ window.QUIZ = {
         'No sender name',
       ],
       correct: 2,
-      time: 25,
+      time: 60,
       explain: 'Modern attacks (often AI-assisted) are well written and personalised — bad grammar is no longer a reliable signal.',
     },
     {
       q: 'A text says: “Your bank account is locked. Verify now within 10 minutes.” Which two tactics are most clearly being used?',
       options: ['Curiosity and humor', 'Fear and urgency', 'Greed and nostalgia', 'Sympathy and trust'],
       correct: 1,
+      time: 60,
       explain: '“Locked” creates fear; “within 10 minutes” creates urgency.',
     },
     {
@@ -156,7 +164,7 @@ window.QUIZ = {
         'An automated calendar reminder',
       ],
       correct: 1,
-      time: 30,
+      time: 60,
       explain: 'Spear phishing is targeted: it uses personal details to look trustworthy.',
     },
     {
@@ -168,7 +176,7 @@ window.QUIZ = {
         'Forward it to friends for a second opinion',
       ],
       correct: 2,
-      time: 25,
+      time: 60,
       explain: 'Start with the cheap, safe checks: sender, headers, links, and whether the request makes sense.',
     },
     {
@@ -180,7 +188,7 @@ window.QUIZ = {
         'Brute-force authentication',
       ],
       correct: 1,
-      time: 30,
+      time: 60,
       double: true,
       explain: 'AiTM phishing proxies the real login page, so it can steal the session cookie even when MFA is used.',
     },
