@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QuizLive</title>
+  <meta name="theme-color" content="#46178f">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&display=swap">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="player">
+  <main class="screen center">
+    <form class="card join-card" id="homeForm" autocomplete="off">
+      <div class="brand big-brand">QuizLive</div>
+      <label for="pin">Game PIN</label>
+      <input id="pin" inputmode="numeric" pattern="[0-9 ]*" maxlength="7" placeholder="123 456" required>
+      <button class="btn big" type="submit">Join</button>
+      <a class="link host-link" href="/host.html">I'm the teacher — host a game</a>
+    </form>
+  </main>
+  <script>
+    document.getElementById('homeForm').onsubmit = function (e) {
+      e.preventDefault();
+      var pin = document.getElementById('pin').value.replace(/\D/g, '');
+      if (pin.length === 6) location.href = '/play.html?pin=' + pin;
+    };
+    if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('/sw.js').catch(function () {});
+  </script>
+</body>
+</html>

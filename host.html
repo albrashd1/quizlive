@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QuizLive · Host</title>
+  <meta name="theme-color" content="#46178f">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&display=swap">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="host">
+  <header class="topbar">
+    <div class="brand">QuizLive</div>
+    <div class="topbar-right">
+      <span id="conn" class="conn off">Offline</span>
+      <button id="fsBtn" class="ghost small" type="button" title="Full screen">⛶ Full screen</button>
+    </div>
+  </header>
+
+  <!-- SETUP -->
+  <main id="setup" class="screen center">
+    <div class="card setup-card">
+      <h1 id="quizTitle">Quiz</h1>
+      <p id="quizMeta" class="muted"></p>
+      <div id="setupWarn"></div>
+      <button id="newGameBtn" class="btn big" type="button">Create game</button>
+      <div id="resumeBox" hidden>
+        <p class="muted">An unfinished game was found.</p>
+        <button id="resumeBtn" class="btn ghost" type="button">Resume game</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- LOBBY -->
+  <main id="lobby" class="screen" hidden>
+    <section class="join-panel">
+      <div class="join-text">
+        <p class="join-label">Scan to join, or go to</p>
+        <p class="join-url" id="joinUrl"></p>
+        <p class="join-label">Game PIN</p>
+        <p class="pin" id="pinText">------</p>
+      </div>
+      <div class="qr" id="qr"></div>
+    </section>
+    <section class="lobby-bottom">
+      <div class="lobby-bar">
+        <div class="count"><span id="playerCount">0</span> players</div>
+        <p class="muted small-text">Click a name to remove it.</p>
+        <button id="startBtn" class="btn big" type="button" disabled>Start</button>
+      </div>
+      <div id="playerList" class="player-list"><p class="waiting">Waiting for players…</p></div>
+    </section>
+  </main>
+
+  <!-- QUESTION -->
+  <main id="question" class="screen" hidden>
+    <div class="q-head">
+      <span class="q-num" id="qNum"></span>
+      <span class="double-badge" id="qDouble" hidden>2× points</span>
+    </div>
+    <h1 class="q-text" id="qText"></h1>
+    <div class="q-middle">
+      <div class="timer" id="qTimer">20</div>
+      <div class="answered"><strong id="qAnswered">0</strong><span>answers</span></div>
+      <button id="skipBtn" class="btn ghost" type="button">End question</button>
+    </div>
+    <div class="tiles" id="qTiles"></div>
+  </main>
+
+  <!-- REVEAL -->
+  <main id="reveal" class="screen" hidden>
+    <div class="q-head"><span class="q-num" id="rNum"></span></div>
+    <h1 class="q-text small" id="rText"></h1>
+    <div class="bars" id="rBars"></div>
+    <div class="tiles reveal-tiles" id="rTiles"></div>
+    <p class="explain" id="rExplain" hidden></p>
+    <div class="actions"><button id="toBoardBtn" class="btn big" type="button">Leaderboard →</button></div>
+  </main>
+
+  <!-- LEADERBOARD -->
+  <main id="board" class="screen" hidden>
+    <h1 class="title-center">Leaderboard</h1>
+    <ol class="board" id="boardList"></ol>
+    <div class="actions"><button id="nextBtn" class="btn big" type="button">Next question →</button></div>
+  </main>
+
+  <!-- END -->
+  <main id="end" class="screen" hidden>
+    <h1 class="title-center">🏆 Final results</h1>
+    <div class="podium" id="podium"></div>
+    <ol class="board compact" id="finalList"></ol>
+    <div class="actions">
+      <button id="csvBtn" class="btn ghost" type="button">Download results (CSV)</button>
+      <button id="againBtn" class="btn" type="button">New game</button>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/questions.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/host.js"></script>
+</body>
+</html>

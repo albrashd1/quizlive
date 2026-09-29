@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>QuizLive · Play</title>
+  <meta name="theme-color" content="#46178f">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&display=swap">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="player">
+  <header class="pbar">
+    <span id="pName" class="pname"></span>
+    <span id="pScore" class="pscore"></span>
+    <span id="pConn" class="dot off" title="Connection"></span>
+  </header>
+
+  <!-- JOIN FORM -->
+  <main id="join" class="screen center">
+    <form id="joinForm" class="card join-card" autocomplete="off">
+      <div class="brand big-brand">QuizLive</div>
+      <div id="joinWarn"></div>
+      <label for="pinInput">Game PIN</label>
+      <input id="pinInput" inputmode="numeric" pattern="[0-9 ]*" maxlength="7" placeholder="123 456" required>
+      <label for="nameInput">Nickname</label>
+      <input id="nameInput" maxlength="16" placeholder="Your name" required>
+      <button class="btn big" type="submit">Enter</button>
+    </form>
+  </main>
+
+  <!-- STATUS MESSAGES (joining, waiting, locked, time up, removed) -->
+  <main id="msg" class="screen center" hidden>
+    <div class="msg-box">
+      <div id="msgIcon" class="msg-icon">⏳</div>
+      <h1 id="msgTitle">Joining…</h1>
+      <p id="msgText" class="muted"></p>
+      <button id="leaveBtn" class="link" type="button" hidden>Leave game</button>
+    </div>
+  </main>
+
+  <!-- QUESTION -->
+  <main id="ask" class="screen" hidden>
+    <div class="ask-head">
+      <span id="aNum"></span>
+      <span id="aDouble" class="double-badge" hidden>2×</span>
+      <span id="aTimer" class="mini-timer"></span>
+    </div>
+    <p id="aText" class="ask-text"></p>
+    <div id="aButtons" class="answer-grid"></div>
+  </main>
+
+  <!-- RESULT -->
+  <main id="result" class="screen center" hidden>
+    <div id="resBox" class="res-box">
+      <div id="resIcon" class="res-icon"></div>
+      <h1 id="resTitle"></h1>
+      <p id="resPoints" class="res-points"></p>
+      <p id="resRank" class="res-rank"></p>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/play.js"></script>
+</body>
+</html>
